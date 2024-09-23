@@ -44,6 +44,7 @@ function handleCellClick(event) {
 
 function checkForWinner() {
     let roundWon = false;
+    let winningCells = [];
     for (let i = 0; i < winningCombinations.length; i++) {
         const winCombo = winningCombinations[i];
         const a = board[winCombo[0]];
@@ -56,6 +57,7 @@ function checkForWinner() {
 
         if (a === b && b === c) {
             roundWon = true;
+            winningCells = winCombo; 
             break;
         }
     }
@@ -64,6 +66,7 @@ function checkForWinner() {
         gameResultElement.textContent = `Player ${currentPlayer} wins!`;
         gameActive = false;
         updateScore();
+        popWinningCells(winningCells); 
         return;
     }
 
@@ -99,5 +102,12 @@ function resetGame() {
     gameResultElement.textContent = "";
     cells.forEach(cell => {
         cell.textContent = "";
+        cell.classList.remove('pop-animation');
+    });
+}
+
+function popWinningCells(winningCells) {
+    winningCells.forEach(index => {
+        document.getElementById(index).classList.add('pop-animation');
     });
 }
